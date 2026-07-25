@@ -1,0 +1,12 @@
+# IDE configuration files
+.idea/
+*.iml
+.vscode/
+
+# Compiled class files
+*.class
+
+# Build directories
+out/
+target/
+build/
