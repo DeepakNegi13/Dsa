@@ -2,19 +2,42 @@ package stacks;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Stack;
 
-class Node {
-	int data;
-	Node next;
+//Implement stack using two Quie
+class MyStack {
+	Queue<Integer> q = new LinkedList<>();
 
-	public Node(int data) {
-		this.data = data;
+	public MyStack() {
+
 	}
 
-	public Node(int data, Node next) {
-		this.data = data;
-		this.next = next;
+	public void push(int x) {
+		q.add(x);
+	}
+
+	public int pop() {
+		int n = 0;
+		for (int i = 0; i < q.size(); i++) {
+			if (i == q.size() - 1) n = q.remove();
+			else q.add(q.remove());
+		}
+		return n;
+	}
+
+	public int top() {
+		int n = 0;
+		for (int i = 0; i < q.size(); i++) {
+			if (i == q.size() - 1) n = q.peek();
+			q.add(q.remove());
+		}
+		return n;
+	}
+
+	public boolean empty() {
+		return q.size() == 0;
 	}
 }
 
@@ -63,8 +86,32 @@ class ListNodeStack {
 }
 
 public class stacksBasics {
+	public static void anyPatter(long num) {
+		Stack<Integer> st = new Stack<>();
+		Stack<Integer> newSt = new Stack<>();
+		while (num != 0) {
+			st.push((int) (num % 10));
+			num = num / 10;
+		}
+		for (int i = 0; i < 9; i++) {
+			while (st.size() != 0) {
+				if (st.peek() != 0) {
+					System.out.print("* ");
+					newSt.push(st.pop() - 1);
+				} else {
+					System.out.print("  ");
+					newSt.push(st.pop());
+				}
+			}
+			while (newSt.size() != 0) {
+				st.push(newSt.pop());
+			}
+			System.out.println();
+		}
 
-	public static void printStackInFIFOMenner(Stack st) {
+	}
+
+	public static void printStackInFIFOManner(Stack st) {
 		Stack<Integer> newSt = new Stack<>();
 		while (st.size() != 0) {
 			newSt.push((Integer) st.pop());
@@ -75,7 +122,7 @@ public class stacksBasics {
 		}
 	}
 
-	public static void printStackInFILOMenner(Stack st) {
+	public static void printStackInFILOManner(Stack st) {
 		//time complexity O(2n) space complexity O(n)
 		Stack<Integer> newSt = new Stack<>();
 		while (st.size() != 0) {
@@ -229,8 +276,32 @@ public class stacksBasics {
 		return newAns;
 	}
 
+	public ArrayList<Integer> calculateSpan(int[] arr) {
+		Stack<int[]> st = new Stack<>();
+		ArrayList<Integer> ans = new ArrayList<>();
+		for (int i = 0; i < arr.length; i++) {
+			if (st.size() == 0) {
+				st.push(new int[]{arr[i], i});
+				ans.add(i);
+				continue;
+			}
+			if (arr[i] >= st.peek()[0]) {
+				st.pop();
+				i--;
+
+			} else {
+				ans.add(i - st.peek()[1]);
+				st.push(new int[]{arr[i], i});
+			}
+		}
+		return ans;
+
+
+	}
+
 
 	public static void main(String[] args) throws Exception {
+
 
 	}
 }
