@@ -80,10 +80,6 @@ public class question {
 	}
 
 
-	public boolean containsNearbyDuplicate(int[] nums, int k) {
-
-	}
-
 	static void main(String[] args) {
 
 	}

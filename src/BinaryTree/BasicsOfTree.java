@@ -25,6 +25,53 @@ class BinaryNodes {
 }
 
 public class BasicsOfTree {
+	//global variable
+	List<Double> ans = new ArrayList<>();
+
+	//helper function
+	int sum(Queue<BinaryNodes> p) {
+		Queue<BinaryNodes> q = new LinkedList<>();
+		double sum = 0;
+		double n = p.size();
+		while (p.size() != 0) {
+			BinaryNodes temp = p.remove();
+
+			if (temp.right != null) q.add(temp.right);
+			if (temp.left != null) q.add(temp.left);
+			sum += temp.val;
+		}
+
+		ans.add(sum / n);
+
+		if (q.size() != 0) return sum(q);
+		return 0;
+
+	}
+
+	//main function
+	public List<Double> averageOfLevels(BinaryNodes root) {
+		Queue<BinaryNodes> p = new LinkedList<>();
+		p.add(root);
+		sum(p);
+		return ans;
+	}
+
+
+	public static void view(BinaryNodes root, int level, List<Integer> ans) {
+		if (root == null) return;
+		if (level == ans.size()) {
+			ans.add(root.val);
+		} else ans.set(level, root.val);
+		view(root.left, level + 1, ans);
+		view(root.right, level + 1, ans);
+	}
+
+	public List<Integer> rightSideView(BinaryNodes root) {
+		List<Integer> ans = new ArrayList<>();
+		view(root, 0, ans);
+		return ans;
+	}
+
 	//print nth level of binaryTree
 	//level start from zero just like index
 	public static void nthLevelHelper(BinaryNodes root, int level, int currentLevel) {
@@ -33,6 +80,7 @@ public class BasicsOfTree {
 		nthLevelHelper(root.left, level, currentLevel + 1);
 		nthLevelHelper(root.right, level, currentLevel + 1);
 	}
+
 	public static void nthLevel(BinaryNodes root, int level) {
 		nthLevelHelper(root, level, 0);
 	}
