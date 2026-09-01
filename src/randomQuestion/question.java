@@ -14,6 +14,22 @@ class pair {
 }
 
 public class question {
+	public boolean checkDivisibility(int n) {
+		List<Integer> arr = new ArrayList<>();
+		int m = n;
+		while (m > 0) {
+			arr.add(m % 10);
+			m = m / 10;
+		}
+		int sum = 0;
+		int product = 1;
+		for (int elem : arr) {
+			sum += elem;
+			product *= elem;
+		}
+		return n % (sum + product) == 0;
+	}
+
 	public int strStr(String haystack, String need) {
 		int n = haystack.length();
 		boolean flag = true;
