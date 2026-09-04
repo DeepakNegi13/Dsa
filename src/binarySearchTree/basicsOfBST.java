@@ -15,55 +15,67 @@ class TreeNode {
 }
 
 public class basicsOfBST {
-	public static void main(String[] args) {
-		TreeNode root = new TreeNode(8);
-		root.left = new TreeNode(9);
-		root.right = new TreeNode(7);
-		ArrayList arr = new ArrayList<Integer>();
-		levelOrderTra(root, arr);
-		for (Object i : arr) System.out.print(i + " ");
-
+	public void right(TreeNode root, TreeNode secLeaf) {
+		if (root.right.right == null) {
+			secLeaf = root;
+			return;
+		}
+		right(root.right, secLeaf);
 	}
 
-	//delete node having zero child
-	public static TreeNode deleteZeroChild(TreeNode root, int k) {
-		if (root.val == k) {
-			root = null;
-			return root;
+	public void left(TreeNode root, TreeNode secLeaf) {
+		if (root.left.left == null) {
+			secLeaf = root;
+			return;
 		}
-		if (root.val > k) {
+		left(root.left, secLeaf);
+	}
+
+	public TreeNode deleteNode(TreeNode root, int key) {
+		if (root == null) return root;
+		if (root.val == key) return null;
+		if (root.val > key) {
 			if (root.left == null) return root;
-			if (root.left.val == k) {
-				root.left = null;
-			} else deleteZeroChild(root.left, k);
+			if (root.left.val == key) {
+				if (root.left.left == null && root.left.right == null) {
+					root.left = null;
+					return root;
+				} else if (root.left.left == null && root.left.right != null) {
+					root.left = root.left.right;
+					return root;
+				} else if (root.left.left != null && root.left.right == null) {
+					root.left = root.left.left;
+					return root;
+				} else {
+					TreeNode secLeaf = null;
+					right(root.left, secLeaf);
+					root.left.val = secLeaf.right.val;
+					if (secLeaf.right.left != null) secLeaf.right = secLeaf.right.left;
+					else secLeaf.right = null;
+				}
+			}
+			deleteNode(root.left, key);
 		} else {
 			if (root.right == null) return root;
-			if (root.right.val == k) {
-				root.right = null;
-			} else deleteZeroChild(root.right, k);
-		}
-		return root;
-	}
-
-	//delete node having one child
-	public static TreeNode deleteOneChild(TreeNode root, int k) {
-		if (root == null) return root;
-		if (root.val == k) {
-			root = null;
-			return root;
-		}
-		if (root.val > k) {
-			if (root.left == null) return root;
-			if (root.left.val == k) {
-				if (root.left.right == null) root.left = root.left.left;
-				else root.left = root.left.right;
-			} else deleteZeroChild(root.left, k);
-		} else {
-			if (root.left == null) return root;
-			if (root.right.val == k) {
-				if (root.right.right == null) root.right = root.right.left;
-				else root.right = root.right.right;
-			} else deleteZeroChild(root.right, k);
+			if (root.right.val == key) {
+				if (root.right.left == null && root.right.right == null) {
+					root.right = null;
+					return root;
+				} else if (root.right.left == null && root.right.right != null) {
+					root.right = root.right.right;
+					return root;
+				} else if (root.right.left != null && root.right.right == null) {
+					root.right = root.right.left;
+					return root;
+				} else {
+					TreeNode secLeaf = null;
+					left(root.right, secLeaf);
+					root.right.val = secLeaf.left.val;
+					if (secLeaf.left.right != null) secLeaf.left = secLeaf.left.right;
+					else secLeaf.left = null;
+				}
+			}
+			deleteNode(root.left, key);
 		}
 		return root;
 	}
@@ -107,5 +119,15 @@ public class basicsOfBST {
 		if (val.left != null) q.add(val.left);
 		if (val.right != null) q.add(val.right);
 		levelOrderTraHelp(arr, q);
+	}
+
+	public static void main(String[] args) {
+		TreeNode root = new TreeNode(8);
+		root.left = new TreeNode(9);
+		root.right = new TreeNode(7);
+		ArrayList arr = new ArrayList<Integer>();
+		levelOrderTra(root, arr);
+		for (Object i : arr) System.out.print(i + " ");
+
 	}
 }
