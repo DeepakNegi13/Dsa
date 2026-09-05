@@ -15,6 +15,7 @@ class TreeNode {
 }
 
 public class basicsOfBST {
+	//delete the node
 	public TreeNode right(TreeNode root) {
 		if (root.right.right == null) return root;
 		return right(root.right);
