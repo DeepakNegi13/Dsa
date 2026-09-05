@@ -15,68 +15,38 @@ class TreeNode {
 }
 
 public class basicsOfBST {
-	public void right(TreeNode root, TreeNode secLeaf) {
-		if (root.right.right == null) {
-			secLeaf = root;
-			return;
-		}
-		right(root.right, secLeaf);
+	public TreeNode right(TreeNode root) {
+		if (root.right.right == null) return root;
+		return right(root.right);
 	}
 
-	public void left(TreeNode root, TreeNode secLeaf) {
-		if (root.left.left == null) {
-			secLeaf = root;
-			return;
-		}
-		left(root.left, secLeaf);
+	public TreeNode left(TreeNode root) {
+		if (root.left.left == null) return root;
+		return left(root.left);
 	}
 
 	public TreeNode deleteNode(TreeNode root, int key) {
-		if (root == null) return root;
-		if (root.val == key) return null;
-		if (root.val > key) {
-			if (root.left == null) return root;
-			if (root.left.val == key) {
-				if (root.left.left == null && root.left.right == null) {
-					root.left = null;
-					return root;
-				} else if (root.left.left == null && root.left.right != null) {
-					root.left = root.left.right;
-					return root;
-				} else if (root.left.left != null && root.left.right == null) {
-					root.left = root.left.left;
-					return root;
-				} else {
-					TreeNode secLeaf = null;
-					right(root.left, secLeaf);
-					root.left.val = secLeaf.right.val;
-					if (secLeaf.right.left != null) secLeaf.right = secLeaf.right.left;
-					else secLeaf.right = null;
-				}
-			}
-			deleteNode(root.left, key);
+		if (root == null) return null;
+
+		if (key < root.val) {
+			root.left = deleteNode(root.left, key);
+		} else if (key > root.val) {
+			root.right = deleteNode(root.right, key);
 		} else {
-			if (root.right == null) return root;
-			if (root.right.val == key) {
-				if (root.right.left == null && root.right.right == null) {
-					root.right = null;
-					return root;
-				} else if (root.right.left == null && root.right.right != null) {
-					root.right = root.right.right;
-					return root;
-				} else if (root.right.left != null && root.right.right == null) {
-					root.right = root.right.left;
-					return root;
-				} else {
-					TreeNode secLeaf = null;
-					left(root.right, secLeaf);
-					root.right.val = secLeaf.left.val;
-					if (secLeaf.left.right != null) secLeaf.left = secLeaf.left.right;
-					else secLeaf.left = null;
-				}
+			// Zero or one child
+			if (root.left == null) return root.right;
+			if (root.right == null) return root.left;
+
+			// Two children: replace with inorder successor
+			TreeNode successor = root.right;
+			while (successor.left != null) {
+				successor = successor.left;
 			}
-			deleteNode(root.left, key);
+
+			root.val = successor.val;
+			root.right = deleteNode(root.right, successor.val);
 		}
+
 		return root;
 	}
 
