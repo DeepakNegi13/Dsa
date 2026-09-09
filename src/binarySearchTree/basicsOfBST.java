@@ -15,9 +15,25 @@ class TreeNode {
 }
 
 public class basicsOfBST {
-	public int[] morrisTra(TreeNode root) {
-
-	}
+//	public ArrayList<Integer> morrisTra(TreeNode root) {
+//		ArrayList<Integer> arr = new ArrayList<>();
+//		TreeNode curr = root;
+//		while (curr != null) {
+//			TreeNode pre = curr.left;
+//			while (pre.right != null && pre.right != curr) {
+//				pre = pre.right;
+//			}
+//			if (pre.right == null) {
+//				pre.right = curr;
+//				curr = curr.left;
+//			} else if (pre.right != curr) {
+//				pre.right = null;
+//				curr = curr.right;
+//			}
+//		}
+//
+//
+//	}
 
 	public int[] inorderPredecesor(TreeNode root, int k) {
 		ArrayList<Integer> arr = new ArrayList<>();
