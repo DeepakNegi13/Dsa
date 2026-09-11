@@ -56,6 +56,7 @@ public class question {
 
 	}
 
+
 	public static String[] sortPeople(String[] names, int[] heights) {
 		int n = names.length;
 		pair[] arr = new pair[n];
@@ -96,19 +97,36 @@ public class question {
 		return sqrt(0, x, x);
 	}
 
+	public String removeStars(String s) {
+		Stack<Character> st = new Stack<>();
+		for (int i = 0; i < s.length(); i++) {
+			if (s.charAt(i) == '*') st.pop();
+			else st.push(s.charAt(i));
+		}
+		Stack<Character> st2 = new Stack<>();
+		while (!st.isEmpty()) {
+			st2.push(st.pop());
+		}
+		String ans = "";
+		while (!st2.isEmpty()) {
+			ans += st2.pop();
+		}
+		return ans;
+	}
+
 
 	//most logical and illogical code at the same the time 🤣🤣🤣🤣🤣🥹🥹🥹😆😆😆😆
 	public static int GCD(int nums1, int nums2) {
-		if (nums1 == 1 || nums2 == 1) return 1;
-		if (nums1 < nums2 && nums2 % nums1 == 0) return nums1;
-		else if (nums1 % nums2 == 0) return nums2;
-		for (int i = 2; i <= nums1 && i <= nums2; i++)
-			if (nums1 % i == 0 && nums2 % i == 0) return i * GCD(nums1 / i, nums2 / i);
-		return 1;
+
+		int min = Math.min(nums1, nums2);
+		int max = Math.max(nums1, nums2);
+		if (min == 0) return max;
+		return GCD(max % min, min);
 	}
 
+
 	static void main(String[] args) {
-		System.out.println(GCD(8, 14));
+		System.out.println(GCD(24, 60));
 	}
 
 
