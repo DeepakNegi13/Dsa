@@ -22,9 +22,33 @@ class BinaryNodes {
 	public BinaryNodes(int val) {
 		this.val = val;
 	}
+
 }
 
 public class BasicsOfTree {
+	//morries traversal for binary node in inorder manner  time complexity(O(n)) and space complexity (O(n)) for storing the data
+	public List<Integer> inorderTraversal(BinaryNodes root) {
+		List<Integer> arr = new ArrayList<>();
+		BinaryNodes curr = root;
+		while (curr != null) {
+			if (curr.left != null) {
+				BinaryNodes pre = curr.left;
+				while (pre.right != null && pre.right != curr) pre = pre.right;
+				if (pre.right == null) {
+					pre.right = curr;
+					curr = curr.left;
+				} else {
+					pre.right = null;
+					arr.add(curr.val);
+					curr = curr.right;
+				}
+			} else {
+				arr.add(curr.val);
+				curr = curr.right;
+			}
+		}
+		return arr;
+	}
 
 
 	//global variable
