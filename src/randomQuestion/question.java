@@ -15,6 +15,47 @@ class pair {
 }
 
 public class question {
+	//pick and skip concept
+	public void helper(int[] nums, List<List<Integer>> arr, List<Integer> temp, int i) {
+		if (i == nums.length) {
+			arr.add(new ArrayList<Integer>(temp));
+			return;
+		}
+		temp.add(nums[i]);
+		helper(nums, arr, temp, i + 1);
+		temp.removeLast();
+		helper(nums, arr, temp, i + 1);
+	}
+
+	public List<List<Integer>> subsets(int[] nums) {
+		List<List<Integer>> arr = new ArrayList<>();
+		List<Integer> temp = new ArrayList<>();
+		helper(nums, arr, temp, 0);
+		return arr;
+	}
+
+
+	public List<String> generateParenthesis(int n) {
+		List<String> ans = new ArrayList<>();
+		String str = new String();
+		helperString(n, 0, ans, str);
+		return ans;
+	}
+
+	private void helperString(int n, int i, List<String> ans, String str) {
+		if (n == i) {
+			for (int j = 1; j <= 2 * n - str.length(); j++) str = str + ")";
+			ans.add(new String(str));
+			return;
+		}
+		str = str + "(";
+		helperString(n, i + 1, ans, str);
+		str = str + ")";
+		helperString(n, i + 1, ans, str);
+
+	}
+
+
 	public boolean checkDivisibility(int n) {
 		List<Integer> arr = new ArrayList<>();
 		int m = n;
@@ -126,7 +167,7 @@ public class question {
 
 
 	static void main(String[] args) {
-		System.out.println(GCD(24, 60));
+		System.out.println();
 	}
 
 
