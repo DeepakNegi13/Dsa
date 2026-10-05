@@ -1,7 +1,29 @@
 package randomQuestion;
 
-import java.math.BigInteger;
+
 import java.util.*;
+
+class TreeNode {
+	TreeNode left;
+	TreeNode right;
+	int val;
+
+	public TreeNode(int val) {
+		this.val = val;
+		this.right = null;
+		this.left = null;
+	}
+}
+
+class ListNode {
+	ListNode next;
+	int val;
+
+	public ListNode(int val) {
+		this.val = val;
+		this.next = null;
+	}
+}
 
 class pair {
 	int height;
@@ -165,9 +187,145 @@ public class question {
 		return GCD(max % min, min);
 	}
 
+	static ArrayList<Integer> leaders(int arr[]) {
+		ArrayList<Integer> ans = new ArrayList<>();
+		int right = arr.length - 1;
+		int max = Integer.MIN_VALUE;
+		while (right >= 0) {
+			if (arr[right] > max) {
+				ans.addFirst(arr[right]);
+				max = arr[right];
+			}
+			right--;
+		}
+
+		return ans;
+
+	}
+
+	public int[] findErrorNums(int[] nums) {
+		int[] ans = new int[2];
+		HashSet<Integer> hs = new HashSet<>();
+		int n = nums.length;
+		int sum = (n * (n + 1)) / 2;
+		int actualSum = 0;
+		for (int i = 0; i < n; i++) actualSum += nums[i];
+		int dup = 0;
+		for (int i = 0; i < n; i++) {
+			if (hs.contains(nums[i])) {
+				dup = nums[i];
+				break;
+			} else hs.add(nums[i]);
+		}
+		ans[0] = dup;
+		ans[1] = sum - (actualSum - dup);
+		return ans;
+
+	}
+
+	public int firstMissingPositive(int[] nums) {
+		HashSet<Integer> hs = new HashSet<>();
+		for (int i = 0; i < nums.length; i++) if (nums[i] > 0) hs.add(nums[i]);
+		for (int i = 1; i - 1 < Integer.MAX_VALUE; i++) if (!hs.contains(i)) return i;
+		return -1;
+	}
+
+	//3 fuction for the problem
+	public static void inverse(int[] arr, int[] count) {
+		int n = arr.length;
+		if (n == 1) return;
+		int[] arr1 = new int[n / 2];
+		for (int i = 0; i < n / 2; i++) arr1[i] = arr[i];
+		int[] arr2 = new int[n - n / 2];
+		for (int i = 0; i < n - n / 2; i++) arr2[i] = arr[n / 2 + i];
+		inverse(arr1, count);
+		inverse(arr2, count);
+		counting(arr1, arr2, count);
+
+	}
+
+	public static int inversionCount(int arr[]) {
+		int[] count = {0};
+		inverse(arr, count);
+		return count[0];
+	}
+
+	public static void counting(int[] arr1, int[] arr2, int[] count) {
+		Arrays.sort(arr1);
+		Arrays.sort(arr2);
+		int i = 0;
+		int j = 0;
+		int num = 0;
+		while (i < arr1.length) {
+			while (j < arr2.length && arr1[i] > arr2[j]) {
+				num++;
+				j++;
+			}
+			count[0] += num;
+			i++;
+		}
+	}
+
+	//average solution with time complexity O(n2) and space complexity is O(n+triplet)
+	public List<List<Integer>> threeSum(int[] nums) {
+		List<List<Integer>> ans = new ArrayList<>();
+		HashSet<List<Integer>> set = new HashSet<>();
+
+		for (int i = 0; i < nums.length; i++) {
+			HashSet<Integer> hs = new HashSet<>();
+			for (int j = i + 1; j < nums.length; j++) {
+				if (!hs.isEmpty() && hs.contains(-1 * (nums[i] + nums[j]))) {
+					List<Integer> arr = new ArrayList<>();
+
+					arr.add(nums[i]);
+					arr.add(nums[j]);
+					arr.add(-nums[i] - nums[j]);
+					Collections.sort(arr);
+					set.add(arr);
+				}
+
+			}
+		}
+		for (List<Integer> elem : set) ans.add(elem);
+		return ans;
+	}
+
+	public List<List<Integer>> threeSumOptimalSol(int[] nums) {
+		Arrays.sort(nums);
+		int i = 0;
+		int k = nums.length - 1;
+		List<List<Integer>> ans = new ArrayList<>();
+		while (i < nums.length) {
+			if (i > 0 && nums[i] == nums[i - 1]) {
+				i++;
+				continue;
+			}
+			List<Integer> arr = new ArrayList<>();
+			int j = i + 1;
+			while (j < i) {
+				if (nums[i] + nums[j] + nums[k] == 0) {
+					arr.add(nums[i]);
+					arr.add(nums[j]);
+					arr.add(nums[k]);
+					ans.add(arr);
+					while (j < nums.length) {
+						j++;
+						if (nums[j] != nums[j - 1]) break;
+					}
+					while (k > j) {
+						k--;
+						if (nums[k] != nums[k - 1]) break;
+					}
+				} else if (nums[i] + nums[j] + nums[k] > 0) k--;
+				else j++;
+			}
+			i++;
+		}
+		return ans;
+	}
+
 
 	static void main(String[] args) {
-		System.out.println();
 	}
 
 
