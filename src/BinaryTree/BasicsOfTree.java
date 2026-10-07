@@ -1,7 +1,6 @@
 package BinaryTree;
 
 
-import javax.swing.tree.TreeNode;
 import java.util.*;
 
 class pair {
@@ -48,6 +47,62 @@ public class BasicsOfTree {
 			}
 		}
 		return arr;
+	}
+
+
+	public static List<Integer> iterativePreorder(BinaryNodes root) {
+		Stack<BinaryNodes> st = new Stack<>();
+		List<Integer> ans = new ArrayList<>();
+		if (root == null) return ans;
+		ans.add(root.val);
+		if (root.right != null) st.push(root.right);
+		if (root.left != null) st.push(root.left);
+		while (!st.isEmpty()) {
+			BinaryNodes node = st.pop();
+			if (root.right != null) st.push(node.right);
+			if (root.left != null) st.push(node.left);
+			ans.add(node.val);
+		}
+		return ans;
+	}
+
+	public List<Integer> iterativeInorder(BinaryNodes root) {
+		Stack<BinaryNodes> st = new Stack<>();
+		List<Integer> ans = new ArrayList<>();
+		BinaryNodes node = root;
+
+		while (true) {
+			if (node != null) {
+				st.push(node);
+				node = node.left;
+			} else {
+				if (st.isEmpty()) break;
+				node = st.pop();
+				ans.add(node.val);
+				node = node.right;
+			}
+		}
+		return ans;
+
+
+	}
+
+	public List<Integer> postorder(BinaryNodes root) {
+		Stack<BinaryNodes> st1 = new Stack<>();
+		Stack<BinaryNodes> st2 = new Stack<>();
+		st1.push(root);
+		while (!st1.isEmpty()) {
+			BinaryNodes node = st1.pop();
+			st2.push(node);
+			if (node.left != null) st1.push(node.left);
+			if (node.right != null) st1.push(node.right);
+		}
+		List<Integer> ans = new ArrayList<>();
+		while (!st2.isEmpty()) {
+			ans.add(st2.pop().val);
+		}
+		return ans;
+
 	}
 
 

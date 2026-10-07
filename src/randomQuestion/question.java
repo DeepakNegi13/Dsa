@@ -324,8 +324,49 @@ public class question {
 		return ans;
 	}
 
+	public static boolean isAnagram(String s, String t) {
+		if (s.length() != t.length()) return false;
+		char[] arr = s.toCharArray();
+		Arrays.sort(arr);
+		String S = new String(arr);
+
+		char[] arr2 = t.toCharArray();
+		Arrays.sort(arr2);
+		String T = new String(arr2);
+
+		for (int i = 0; i < S.length(); i++) {
+			if (T.charAt(i) != S.charAt(i)) return false;
+		}
+		return true;
+	}
+
+	public static String reverseWords(String s) {
+
+		String[] arr = s.split(" ");
+		int i = 0;
+		int j = arr.length - 1;
+		//change the order of the words
+		while (i < j) {
+			String temp = arr[i];
+			arr[i] = arr[j];
+			arr[j] = temp;
+			i++;
+			j--;
+		}
+		//convert it from array to string again
+		String str = "";
+		for (int k = 0; k < arr.length; k++) {
+			if (arr[k] == "") continue;
+			str += arr[k];
+			str += " ";
+		}
+		str = str.trim();
+
+		return str;
+	}
 
 	static void main(String[] args) {
+		System.out.println(reverseWords("a good   example"));
 	}
 
 
