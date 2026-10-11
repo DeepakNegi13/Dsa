@@ -35,6 +35,20 @@ class testScore {
 }
 
 public class basicHeap {
+	public static int minCost(int[] arr) {
+		PriorityQueue<Integer> pq = new PriorityQueue<>();
+		for (int i = 0; i < arr.length; i++) pq.add(arr[i]);
+		ArrayList<Integer> arr2 = new ArrayList<>();
+		while (pq.size() > 1) {
+			int sum = pq.remove() + pq.remove();
+			arr2.add(sum);
+			pq.add(sum);
+		}
+		int sum = 0;
+		for (int elem : arr2) sum += elem;
+		return sum;
+	}
+
 	public int kthSmallest(int[] arr, int k) {
 		// Code here
 		PriorityQueue<Integer> pq = new PriorityQueue<>(Collections.reverseOrder());
@@ -74,6 +88,11 @@ public class basicHeap {
 
 	public static void main(String[] args) {
 		//Min heap
+		PriorityQueue<Integer> pq = new PriorityQueue<>();
+		pq.add(2);
+		pq.add(3);
+		pq.add(1);
+		while (!pq.isEmpty()) System.out.print(pq.remove() + " ");
 
 
 	}
