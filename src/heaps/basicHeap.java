@@ -38,15 +38,13 @@ public class basicHeap {
 	public static int minCost(int[] arr) {
 		PriorityQueue<Integer> pq = new PriorityQueue<>();
 		for (int i = 0; i < arr.length; i++) pq.add(arr[i]);
-		ArrayList<Integer> arr2 = new ArrayList<>();
+		int totalSum = 0;
 		while (pq.size() > 1) {
 			int sum = pq.remove() + pq.remove();
-			arr2.add(sum);
+			totalSum += sum;
 			pq.add(sum);
 		}
-		int sum = 0;
-		for (int elem : arr2) sum += elem;
-		return sum;
+		return totalSum;
 	}
 
 	public int kthSmallest(int[] arr, int k) {
