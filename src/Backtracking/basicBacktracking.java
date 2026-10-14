@@ -98,6 +98,7 @@ public class basicBacktracking {
 		}
 
 	}
+
 	public List<List<Integer>> permute(int[] nums) {
 		List<List<Integer>> permutations = new ArrayList<>();
 		List<Integer> permutation = new ArrayList<>();
@@ -134,6 +135,7 @@ public class basicBacktracking {
 		}
 
 	}
+
 	public List<List<Integer>> permute2(int[] nums) {
 		List<List<Integer>> permutations = new ArrayList<>();
 		List<Integer> permutation = new ArrayList<>();
@@ -145,6 +147,121 @@ public class basicBacktracking {
 			System.out.println();
 		}
 		return permutations;
+	}
+
+	//give all the solution
+	public List<List<String>> solveNQueens(int n) {
+		char[][] board = new char[n][n];
+		List<List<String>> ans = new ArrayList<>();
+		for (int i = 0; i < n; i++) for (int j = 0; j < n; j++) board[i][j] = '.';
+		nqueens(board, 0, ans);
+		return ans;
+	}
+
+	private void nqueens(char[][] board, int row, List<List<String>> ans) {
+
+		int n = board.length;
+		if (row == n) {
+			List<String> string = new ArrayList<>();
+			for (int k = 0; k < n; k++) {
+				String str = "";
+				for (int l = 0; l < n; l++) {
+					str = str + board[k][l];
+				}
+				string.add(str);
+			}
+			ans.add(string);
+			return;
+		}
+		for (int j = 0; j < n; j++) {
+			if (isSafeSpot(board, row, j)) {
+				board[row][j] = 'Q';
+				nqueens(board, row + 1, ans);
+				board[row][j] = '.';
+			}
+		}
+
+
+	}
+
+	private boolean isSafeSpot(char[][] board, int row, int column) {
+		int n = board.length;
+
+		//check row
+		for (int j = 0; j < n; j++) {
+			if (board[row][j] == 'Q') return false;
+		}
+		//check column
+		for (int i = 0; i < n; i++) {
+			if (board[i][column] == 'Q') return false;
+		}
+
+		//check diagonal
+		//mark a executing spot
+		int i = row;
+		int j = column;
+		//for north east side
+		while (j < n && i >= 0) {
+			if (board[i][j] == 'Q') return false;
+			j++;
+			i--;
+		}
+		//variable take to the main position
+		i = row;
+		j = column;
+		//for north west side
+		while (j >= 0 && i >= 0) {
+			if (board[i][j] == 'Q') return false;
+			j--;
+			i--;
+		}
+
+		//variable take to the main position
+		i = row;
+		j = column;
+		//for south east side
+		while (j < n && i < n) {
+			if (board[i][j] == 'Q') return false;
+			j++;
+			i++;
+		}
+		//variable take to the main position
+		i = row;
+		j = column;
+		//for south west side
+		while (j >= 0 && i < n) {
+			if (board[i][j] == 'Q') return false;
+			j--;
+			i++;
+		}
+		return true;
+	}
+
+	//give total number of solution
+	public int totalNQueens(int n) {
+		char[][] board = new char[n][n];
+		for (int i = 0; i < n; i++) for (int j = 0; j < n; j++) board[i][j] = '.';
+		int[] num = new int[1];
+		nqueensNumber(board, 0, num);
+		return num[0];
+	}
+
+	private void nqueensNumber(char[][] board, int row, int[] num) {
+
+		int n = board.length;
+		if (row == n) {
+			num[0]++;
+			return;
+		}
+		for (int j = 0; j < n; j++) {
+			if (isSafeSpot(board, row, j)) {
+				board[row][j] = 'Q';
+				nqueensNumber(board, row + 1, num);
+				board[row][j] = '.';
+			}
+		}
+
+
 	}
 
 
