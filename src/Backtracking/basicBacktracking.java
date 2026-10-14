@@ -1,6 +1,7 @@
 package Backtracking;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class basicBacktracking {
 	void ratInAMaze4D(int sr, int sc, int er, int ec, String s, boolean[][] isVisited) {
@@ -26,8 +27,9 @@ public class basicBacktracking {
 	}
 
 	void ratInA_2D_DeadMaze(int sr, int sc, int er, int ec, String s, int[][] deadSpot) {
+		//0 means cant enter at that point and 1 mean can enter
 		if (sr > er || sc > ec) return;
-		if (deadSpot[sr][sc] == 1) return;
+		if (deadSpot[sr][sc] == 0) return;
 		if (sr == er && sc == ec) {
 			System.out.println(s);
 			return;
@@ -36,6 +38,27 @@ public class basicBacktracking {
 		ratInA_2D_DeadMaze(sr, sc + 1, er, ec, s + 'R', deadSpot);
 		//down
 		ratInA_2D_DeadMaze(sr + 1, sc, er, ec, s + 'D', deadSpot);
+	}
+
+	void ratInA_4D_DeadMaze(int sr, int sc, int er, int ec, String s, int[][] deadSpot) {
+		//0 means cant enter at that point 1 means can enter and -1 means already enter
+		if (sr < 0 || sc < 0) return;
+		if (sr > er || sc > ec) return;
+		if (deadSpot[sr][sc] == 0 || deadSpot[sr][sc] == -1) return;
+		if (sr == er && sc == ec) {
+			System.out.println(s);
+			return;
+		}
+		deadSpot[sr][sc] = -1;
+		//right
+		ratInA_4D_DeadMaze(sr, sc + 1, er, ec, s + 'R', deadSpot);
+		//left
+		ratInA_4D_DeadMaze(sr, sc - 1, er, ec, s + 'L', deadSpot);
+		//down
+		ratInA_4D_DeadMaze(sr + 1, sc, er, ec, s + 'D', deadSpot);
+		//up
+		ratInA_4D_DeadMaze(sr - 1, sc, er, ec, s + 'U', deadSpot);
+		deadSpot[sr][sc] = 1;
 	}
 
 	void ratInAMaze2D(int row, int column, ArrayList<ArrayList<Character>> paths, ArrayList<Character> path) {
@@ -57,6 +80,74 @@ public class basicBacktracking {
 		return numberOfPathInMaze(row - 1, column) + numberOfPathInMaze(row, column - 1);
 	}
 
+	public static void permutate(List<Integer> nums, List<List<Integer>> permuatations, List<Integer> permutation, int size) {
+		if (permutation.size() == size) {
+			permuatations.add(new ArrayList<>(permutation));
+			return;
+		}
+
+		for (int j = 0; j < nums.size(); j++) {
+			//take
+			permutation.add(nums.get(j));
+			int removeVal = nums.remove(j);
+			permutate(nums, permuatations, permutation, size);
+
+			//not take
+			permutation.removeLast();
+			nums.add(j, removeVal);
+		}
+
+	}
+	public List<List<Integer>> permute(int[] nums) {
+		List<List<Integer>> permutations = new ArrayList<>();
+		List<Integer> permutation = new ArrayList<>();
+		List<Integer> arr = new ArrayList<>();
+		for (int i = 0; i < nums.length; i++) arr.add(nums[i]);
+		permutate(arr, permutations, permutation, nums.length);
+
+		for (List<Integer> elems : permutations) {
+			for (int elem : elems) System.out.print(elem + " ");
+			System.out.println();
+		}
+		return permutations;
+	}
+
+	public static void permutate2(int[] nums, List<List<Integer>> permuatations, List<Integer> permutation, int size, boolean[] isVisited) {
+		if (permutation.size() == size) {
+			permuatations.add(new ArrayList<>(permutation));
+			return;
+		}
+
+		for (int j = 0; j < nums.length; j++) {
+			//take
+			if (!isVisited[j]) {
+				permutation.add(nums[j]);
+				isVisited[j] = true;
+				permutate2(nums, permuatations, permutation, size, isVisited);
+
+				//not take
+				permutation.removeLast();
+				isVisited[j] = false;
+			}
+
+
+		}
+
+	}
+	public List<List<Integer>> permute2(int[] nums) {
+		List<List<Integer>> permutations = new ArrayList<>();
+		List<Integer> permutation = new ArrayList<>();
+		boolean[] isvisited = new boolean[nums.length];
+		permutate2(nums, permutations, permutation, nums.length, isvisited);
+
+		for (List<Integer> elems : permutations) {
+			for (int elem : elems) System.out.print(elem + " ");
+			System.out.println();
+		}
+		return permutations;
+	}
+
+
 	void main() {
 		/*ArrayList<ArrayList<Character>> paths = new ArrayList<>();
 		ArrayList<Character> path = new ArrayList<>();
@@ -73,11 +164,8 @@ public class basicBacktracking {
 		boolean[][] isVisited = new boolean[er][ec];
 		printPathsIn4Dir(0, 0, er - 1, ec - 1, "", isVisited);*/
 
-		int[][] deadSpot = new int[3][3];
-		deadSpot[2][0] = 1;
-		deadSpot[2][1] = 1;
-		ratInA_2D_DeadMaze(0, 0, 2, 2, "", deadSpot);
-
+		int[] arr = {1, 2, 3};
+		permute(arr);
 
 	}
 }

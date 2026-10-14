@@ -4,6 +4,16 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.PriorityQueue;
 
+class pair {
+	double val;
+	int index;
+
+	pair(double val, int index) {
+		this.val = val;
+		this.index = index;
+	}
+}
+
 class testScore {
 	int k;
 	ArrayList<Integer> arr = new ArrayList<>();
@@ -83,6 +93,27 @@ public class basicHeap {
 		}
 	}
 
+/*	public static double distanceFromOrigin(int x, int y) {
+		return Math.sqrt(Math.powExact(x, 2) + Math.powExact(y, 2));
+	}
+
+	public int[][] kClosest(int[][] points, int k) {
+		double[] distance = new double[points.length];
+		for (int i = 0; i < points.length; i++) distance[i] = distanceFromOrigin(points[i][0], points[i][1]);
+		PriorityQueue<pair> pq = new PriorityQueue<>(Collections.reverseOrder());
+		for (int i = 0; i < distance.length; i++) {
+			pq.add(new pair(distance[i], i));
+			if (pq.size() > k) pq.remove();
+		}
+		int[][] ans = new int[k][2];
+		int i = 0;
+		for (pair elem : pq) {
+			ans[i][0] = points[elem.index][0];
+			ans[i][1] = points[elem.index][1];
+			i++;
+		}
+		return ans;
+	}*/
 
 	public static void main(String[] args) {
 		//Min heap
