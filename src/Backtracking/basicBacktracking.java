@@ -4,6 +4,65 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class basicBacktracking {
+	//print all the combination
+	public List<List<Integer>> combine(int n, int k) {
+		List<List<Integer>> answers = new ArrayList<>();
+		List<Integer> ans = new ArrayList<>();
+		Combination(answers, ans, n, k, 1);
+		for (List<Integer> elems : answers) {
+			for (int elem : elems) System.out.print(elem + " ");
+			System.out.println();
+		}
+		return answers;
+	}
+
+	public static void Combination(List<List<Integer>> answers, List<Integer> ans, int n, int k, int m) {
+		if (ans.size() == k) {
+			answers.add(new ArrayList<>(ans));
+		}
+		for (int i = m; i <= n; i++) {
+			ans.add(i);
+			Combination(answers, ans, n, k, i + 1);
+			ans.removeLast();
+		}
+	}
+
+	// letters corresponding to digits question
+	public static String letterCorrespondingToDigits(char n) {
+		String str = "";
+		if (n == '1') return str;
+		else if (n == '2') return "abc";
+		else if (n == '3') return "def";
+		else if (n == '4') return "ghi";
+		else if (n == '5') return "jkl";
+		else if (n == '6') return "mno";
+		else if (n == '7') return "pqrs";
+		else if (n == '8') return "tuv";
+		else if (n == '9') return "wxyz";
+		return str;
+	}
+
+	public static void letterComb(List<String> ans, String str, String digits, int k) {
+		if (str.length() == digits.length()) {
+			ans.add(str);
+			return;
+		}
+
+		String str2 = letterCorrespondingToDigits(digits.charAt(k));
+		for (int j = 0; j < str2.length(); j++) {
+			letterComb(ans, str + str2.charAt(j), digits, k + 1);
+		}
+
+	}
+
+	public static List<String> letterCombinations(String digits) {
+		List<String> str = new ArrayList<>();
+		letterComb(str, "", digits, 0);
+		for (String elem : str) System.out.print(elem + " ");
+		return str;
+	}
+
+
 	void ratInAMaze4D(int sr, int sc, int er, int ec, String s, boolean[][] isVisited) {
 		if (sr < 0 || sc < 0) return;
 		if (sr > er || sc > ec) return;
@@ -281,8 +340,9 @@ public class basicBacktracking {
 		boolean[][] isVisited = new boolean[er][ec];
 		printPathsIn4Dir(0, 0, er - 1, ec - 1, "", isVisited);*/
 
-		int[] arr = {1, 2, 3};
-		permute(arr);
+		/*int[] arr = {1, 2, 3};
+		permute(arr);*/
+		combine(4, 2);
 
 	}
 }
