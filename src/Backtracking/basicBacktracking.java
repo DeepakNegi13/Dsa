@@ -4,6 +4,135 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class basicBacktracking {
+	static int flag = 0;
+
+	//sudoku solver leetcode 37
+	public void solveSudoku(char[][] board) {
+		sudkuSolve(board, 0, 0);
+		flag = 0;
+
+	}
+
+	private void sudkuSolve(char[][] board, int row, int column) {
+		if (row == 9) {
+			flag = 1;
+			return;
+		}
+		if (board[row][column] == '.') {
+			for (int i = 1; i <= 9; i++) {
+				board[row][column] = (char) (i + '0');
+				if (isValidSpot(board, row, column)) {
+					if (column == 8) sudkuSolve(board, row + 1, 0);
+					else sudkuSolve(board, row, column + 1);
+				}
+				if (flag == 0) board[row][column] = '.';
+				else break;
+			}
+		} else {
+			if (column == 8) sudkuSolve(board, row + 1, 0);
+			else sudkuSolve(board, row, column + 1);
+		}
+	}
+
+	private boolean isValidSpot(char[][] board, int row, int column) {
+		char val = board[row][column];
+		//for valid block
+		int blockRow = (row / 3) * 3;
+		int blockColumn = (column / 3) * 3;
+		for (int i = blockRow; i < blockRow + 3; i++) {
+			for (int j = blockColumn; j < blockColumn + 3; j++) {
+				if (i == row && j == column) continue;
+				if (board[i][j] == val) return false;
+			}
+		}
+		//for valid row
+		for (int i = 0; i < board.length; i++) {
+			if (i != column && board[row][i] == val) {
+				return false;
+			}
+		}
+		//for valid column
+		for (int i = 0; i < board.length; i++) {
+			if (i != row && board[i][column] == val) {
+				return false;
+			}
+		}
+		return true;
+
+	}
+
+
+	//valid sudoku problem leetcode 36
+	public boolean isValidSudoku(char[][] board) {
+		return validSudoku(board, 0, 0);
+	}
+
+	private boolean validSudoku(char[][] board, int row, int column) {
+		if (row == board.length) return true;
+		if (board[row][column] != '.') {
+			if (isRowSafe(board, row, column) && isColumnSafe(board, row, column) && isBlockSafe(board, row, column)) {
+				if (column < board.length - 1) {
+					return validSudoku(board, row, column + 1);
+				} else return validSudoku(board, row + 1, 0);
+			} else return false;
+		} else {
+			if (column < board.length - 1) {
+				return validSudoku(board, row, column + 1);
+			} else return validSudoku(board, row + 1, 0);
+		}
+
+	}
+
+	private boolean isBlockSafe(char[][] board, int row, int column) {
+		int val = board[row][column];
+		int blockRow = (row / 3) * 3;
+		int blockColumn = (column / 3) * 3;
+		for (int i = blockRow; i < blockRow + 3; i++) {
+			for (int j = blockColumn; j < blockColumn + 3; j++) {
+				if (i == row && j == column) continue;
+				if (board[i][j] == val) return false;
+			}
+		}
+		return true;
+	}
+
+	private boolean isRowSafe(char[][] board, int row, int column) {
+		int val = board[row][column];
+		for (int i = 0; i < board.length; i++) {
+			if (i != column && board[row][i] == val) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	private boolean isColumnSafe(char[][] board, int row, int column) {
+		int val = board[row][column];
+		for (int i = 0; i < board.length; i++) {
+			if (i != row && board[i][column] == val) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	//check valid grid for knight
+	public boolean checkValidGrid(int[][] grid) {
+		int row = 0;
+		int column = 0;
+		return knightGrid(grid, row, column, 0);
+	}
+
+	private boolean knightGrid(int[][] grid, int row, int column, int n) {
+		if (row < 0 || row >= grid.length) return false;
+		if (column < 0 || column >= grid.length) return false;
+		if (n != grid[row][column]) return false;
+		if (n == Math.powExact(grid.length, 2) - 1) return true;
+
+		return knightGrid(grid, row - 2, column + 1, n + 1) | knightGrid(grid, row - 2, column - 1, n + 1) | knightGrid(grid, row - 1, column + 2, n + 1) | knightGrid(grid, row + 1, column + 2, n + 1) | knightGrid(grid, row + 2, column + 1, n + 1) | knightGrid(grid, row + 2, column - 1, n + 1) | knightGrid(grid, row - 1, column - 2, n + 1) | knightGrid(grid, row + 1, column - 2, n + 1);
+	}
+
+
 	//print all the combination
 	public List<List<Integer>> combine(int n, int k) {
 		List<List<Integer>> answers = new ArrayList<>();
@@ -342,7 +471,13 @@ public class basicBacktracking {
 
 		/*int[] arr = {1, 2, 3};
 		permute(arr);*/
-		combine(4, 2);
+		/*combine(4, 2);*/
+		char[][] board = {{'5', '3', '.', '.', '7', '.', '.', '.', '.'}, {'6', '.', '.', '1', '9', '5', '.', '.', '.'}, {'.', '9', '8', '.', '.', '.', '.', '6', '.'}, {'8', '.', '.', '.', '6', '.', '.', '.', '3'}, {'4', '.', '.', '8', '.', '3', '.', '.', '1'}, {'7', '.', '.', '.', '2', '.', '.', '.', '6'}, {'.', '6', '.', '.', '.', '.', '2', '8', '.'}, {'.', '.', '.', '4', '1', '9', '.', '.', '5'}, {'.', '.', '.', '.', '8', '.', '.', '7', '9'}};
+		solveSudoku(board);
+		for (char[] elems : board) {
+			for (char elem : elems) System.out.print(elem + " ");
+			System.out.println();
+		}
 
 	}
 }
