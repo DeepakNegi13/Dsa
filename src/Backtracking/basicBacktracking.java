@@ -4,9 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class basicBacktracking {
-	static int flag = 0;
+
 
 	//sudoku solver leetcode 37
+	static int flag = 0;
 	public void solveSudoku(char[][] board) {
 		sudkuSolve(board, 0, 0);
 		flag = 0;
