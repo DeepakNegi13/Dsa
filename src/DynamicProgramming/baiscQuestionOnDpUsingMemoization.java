@@ -1,6 +1,38 @@
 package DynamicProgramming;
 
 public class baiscQuestionOnDpUsingMemoization {
+
+	public int uniquePathsWithObstacles(int[][] obstacleGrid) {
+		int[] count = new int[1];
+		int[][] ans = new int[obstacleGrid.length][obstacleGrid[0].length];
+		uniquePathsWithObstaclesHelper(obstacleGrid, 0, 0, ans);
+		return ans[0][0];
+	}
+
+	private int uniquePathsWithObstaclesHelper(int[][] obstacleGrid, int row, int col, int[][] ans) {
+		if (row >= obstacleGrid.length || col >= obstacleGrid[0].length) return 0;
+		if (obstacleGrid[row][col] == 1) return 0;
+		if (row == obstacleGrid.length - 1 && col == obstacleGrid[0].length - 1) return ans[row][col] = 1;
+		if (ans[row][col] != 0) return ans[row][col];
+		return ans[row][col] = uniquePathsWithObstaclesHelper(obstacleGrid, row, col + 1, ans) + uniquePathsWithObstaclesHelper(obstacleGrid, row + 1, col, ans);
+
+
+	}
+
+	public int countSquares(int[][] matrix) {
+		int sum = 0;
+		for (int i = 0; i < matrix.length; i++) {
+			for (int j = 0; j < matrix[0].length; j++) {
+				if (i != 0 && j != 0 && matrix[i][j] != 0) {
+					matrix[i][j] += Math.min(matrix[i - 1][j], Math.min(matrix[i][j - 1], matrix[i - 1][j - 1]));
+				}
+				sum += matrix[i][j];
+			}
+		}
+		return sum;
+	}
+
+
 	public int minPathSum(int[][] grid) {
 		int m = grid.length;
 		int n = grid[0].length;
