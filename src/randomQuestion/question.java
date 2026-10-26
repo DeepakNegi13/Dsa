@@ -365,7 +365,14 @@ public class question {
 		return str;
 	}
 
-
+	public int[] nextGreaterElement(int[] nums1, int[] nums2) {
+		Arrays.sort(nums1);
+		Stack<Integer> st = new Stack<>();
+		for (int i = 0; i < nums2.length; i++) st.push(nums2[i]);
+		for (int i = 0; i < nums1.length; i++) {
+			while (st.peek() <= nums1[i]) st.pop();
+		}
+	}
 
 	static void main(String[] args) {
 		System.out.println(reverseWords("a good   example"));
