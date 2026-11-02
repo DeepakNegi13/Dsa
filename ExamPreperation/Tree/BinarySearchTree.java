@@ -31,7 +31,6 @@ public class BinarySearchTree {
 		return root;
 	}
 
-
 	public static boolean search(TreeNode root, int n) {
 		if (root == null) return false;
 		if (root.val > n) return search(root.left, n);
@@ -93,9 +92,7 @@ public class BinarySearchTree {
 		int[] arr = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
 		TreeNode root = constructByInorder(arr, 0, arr.length - 1);
 		display(root);
-		System.out.println();
 		delete(root, 6);
 		display(root);
-
 	}
 }
