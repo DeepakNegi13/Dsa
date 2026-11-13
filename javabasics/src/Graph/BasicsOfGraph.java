@@ -5,6 +5,8 @@ import java.util.Queue;
 import java.util.Stack;
 
 public class BasicsOfGraph {
+
+	// leetcode 547
 	public int findCircleNum(int[][] adj) {
 		int n = adj.length;
 		boolean[] flag = new boolean[n];
@@ -18,7 +20,6 @@ public class BasicsOfGraph {
 		}
 		return ans;
 	}
-
 	private void bfs(int[][] adj, boolean[] flag,int n,int i) {
 		Queue<Integer> q = new LinkedList<>();
 		q.add(i);
