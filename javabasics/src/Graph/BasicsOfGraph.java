@@ -71,17 +71,14 @@ public class BasicsOfGraph {
 	}
 	private List<List<Integer>>  makeAdjList(int[][] edges,int n) {
 		List<List<Integer>> adj = new ArrayList<>();
-		for(int i = 0;i<n;i++){
-			List<Integer> connec = new ArrayList<>();
-			for(int[] elem : edges){
-				if (elem[0]==i) connec.add(elem[1]);
-				else if (elem[1]==i) connec.add(elem[0]);
-			}
-			adj.add(connec);
+		for(int i = 0;i<n;i++) adj.add(new ArrayList<>());
+		for(int i = 0;i<edges.length;i++){
+			int a = edges[i][0]; int b = edges[i][1];
+			adj.get(a).add(b);
+			adj.get(b).add(a);
 		}
 		return adj;
 	}
-
 
 	static void main() {
 
