@@ -1,4 +1,5 @@
 package Graph;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -49,6 +50,38 @@ public class BasicsOfGraph {
 		for(boolean isReached : checkedRooms) if (!isReached) return false;
 		return true;
 	}
+
+	//leetcode 1971
+	public boolean validPath(int n, int[][] edges, int source, int destination) {
+		if(source==destination) return true;
+		List<List<Integer>>  adj = makeAdjList(edges,n);
+		boolean[] isVisited = new boolean[n];
+		Queue<Integer> q = new LinkedList<>();
+		q.add(source);
+		while (!q.isEmpty()){
+			source = q.remove();
+			for(int elem : adj.get(source)){
+				if (!isVisited[elem]){
+					isVisited[elem] = true;
+					q.add(elem);
+				}
+			}
+		}
+		return isVisited[destination];
+	}
+	private List<List<Integer>>  makeAdjList(int[][] edges,int n) {
+		List<List<Integer>> adj = new ArrayList<>();
+		for(int i = 0;i<n;i++){
+			List<Integer> connec = new ArrayList<>();
+			for(int[] elem : edges){
+				if (elem[0]==i) connec.add(elem[1]);
+				else if (elem[1]==i) connec.add(elem[0]);
+			}
+			adj.add(connec);
+		}
+		return adj;
+	}
+
 
 	static void main() {
 
