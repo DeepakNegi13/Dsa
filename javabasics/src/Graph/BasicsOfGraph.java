@@ -1,8 +1,7 @@
 package Graph;
-
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
-import java.util.Stack;
 
 public class BasicsOfGraph {
 
@@ -32,7 +31,26 @@ public class BasicsOfGraph {
 		}
 	}
 
-	public static void main(String[] args) {
+	//leetcode 841
+	public boolean canVisitAllRooms(List<List<Integer>> rooms) {
+        boolean[] checkedRooms = new boolean[rooms.size()];
+		Queue<List<Integer>> q = new LinkedList<>();
+		q.add(rooms.get(0));
+		checkedRooms[0] = true;
+		while(!q.isEmpty()){
+			List<Integer> top = q.remove();
+			for(int elem :top) {
+				if (!checkedRooms[elem]) {
+					q.add(rooms.get(elem));
+					checkedRooms[elem] = true;
+				}
+			}
+		}
+		for(boolean isReached : checkedRooms) if (!isReached) return false;
+		return true;
+	}
+
+	static void main() {
 
 	}
 }
