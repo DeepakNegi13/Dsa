@@ -77,6 +77,8 @@ public class BinaryTree {
     }
 
     //using two stack and with space complexity O(2n) and time complexity O(3n)
+    //another solution you can do this for convert it into 1 stack store it in some array or arraylist and then
+    // reverse this
     public static void postOrder(TreeNode root){
         Stack<TreeNode> st1 = new Stack<>();
         Stack<TreeNode> st2 = new Stack<>();
