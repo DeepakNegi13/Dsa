@@ -76,11 +76,28 @@ public class BinaryTree {
 
     }
 
+    //using two stack and with space complexity O(2n) and time complexity O(3n)
+    public static void postOrder(TreeNode root){
+        Stack<TreeNode> st1 = new Stack<>();
+        Stack<TreeNode> st2 = new Stack<>();
+        st1.add(root);
+        while (!st1.isEmpty()){
+            TreeNode temp = st1.pop();
+            st2.add(temp);
+            if(temp.left!=null) st1.add(temp.left);
+            if(temp.right!=null) st1.add(temp.right);
+        }
+        while (!st2.isEmpty()){
+            System.out.print(st2.pop()+" ");
+        }
+
+    }
+
 
     public static void main(String[] args) {
         int[] arr = {1, 2, 3, 4, 5, 6, 7, 8, 9, 0};
         TreeNode root = MakeTree(arr);
-        inorder(root);
+        postOrder(root);
         System.out.println(" ");
         display(root);
     }
